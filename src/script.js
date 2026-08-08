@@ -12,6 +12,7 @@ function addTask() {
   const li = document.createElement('li');
   const span = document.createElement('span');
   span.textContent = taskText;
+  span.addEventListener('click', () => span.classList.toggle('completed'));
   const btn = document.createElement('button');
   btn.textContent = 'Del';
   btn.addEventListener('click', () => li.remove());
@@ -26,7 +27,4 @@ input.addEventListener('keydown', (event) => {
   if (event.key === 'Enter') {
     addTask();
   }
-});
-btn.addEventListener('click', (event) => {
-  event.target.parentElement.remove();
 });

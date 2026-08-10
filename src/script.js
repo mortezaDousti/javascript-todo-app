@@ -1,10 +1,12 @@
 const input = document.querySelector('#taskInput');
-const button = document.querySelector('#addBtn');
+const addTaskBtn = document.querySelector('#addBtn');
 const list = document.querySelector('.taskList');
 
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
-button.addEventListener('click', addTask);
+//===== add task with button =====
+
+addTaskBtn.addEventListener('click', addTask);
 
 function addTask() {
   //===== when the input is empty or space =====
@@ -30,6 +32,8 @@ function addTask() {
   input.focus();
 }
 
+//===== add task with keydown =====
+
 input.addEventListener('keydown', (event) => {
   if (event.key === 'Enter') {
     addTask();
@@ -49,7 +53,7 @@ function renderTasks() {
       span.classList.add('completed');
     }
 
-    //===== Click as done =====
+    //===== Click as done task =====
 
     span.addEventListener('click', () => {
       task.completed = !task.completed;
@@ -70,21 +74,47 @@ function renderTasks() {
       input.focus();
     });
 
-    //===== button edit =====
+    //===== edit button =====
 
     const editBtn = document.createElement('button');
     editBtn.textContent = 'Edit';
 
     editBtn.addEventListener('click', () => {
-      const newTitle = prompt('Edit task', task.title);
+      li.innerHTML = '';
+      const editInput = document.createElement('input');
+      editInput.value = task.title;
+      const saveBtn = document.createElement('button');
+      saveBtn.textContent = 'Save';
+      const cancelBtn = document.createElement('button');
+      cancelBtn.textContent = 'Cancel';
 
-      if (newTitle === null || newTitle.trim() === '') {
-        return;
-      }
-      task.title = newTitle.trim();
-      localStorage.setItem('tasks', JSON.stringify(tasks));
-      renderTasks();
-      input.focus();
+      saveBtn.addEventListener('click', () => {
+        const newTitle = editInput.value.trim();
+
+        if (newTitle === '') {
+          return;
+        }
+        task.title = newTitle;
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        renderTasks();
+        input.focus();
+      });
+
+      editInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          saveBtn.click();
+        }
+      });
+
+      cancelBtn.addEventListener('click', () => {
+        renderTasks();
+        input.focus();
+      });
+
+      li.appendChild(editInput);
+      li.appendChild(saveBtn);
+      li.appendChild(cancelBtn);
+      editInput.focus();
     });
 
     //===== Create element =====

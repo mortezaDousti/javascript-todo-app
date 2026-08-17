@@ -66,7 +66,10 @@ function renderTasks() {
     //===== Button del =====
 
     const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = 'Del';
+    const delIcon = document.createElement('i');
+    delIcon.textContent = 'delete';
+    delIcon.classList.add('material-symbols-outlined');
+    deleteBtn.appendChild(delIcon);
     deleteBtn.addEventListener('click', () => {
       tasks = tasks.filter((item) => item.id !== task.id);
       localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -77,7 +80,10 @@ function renderTasks() {
     //===== edit button =====
 
     const editBtn = document.createElement('button');
-    editBtn.textContent = 'Edit';
+    const editIcon = document.createElement('i');
+    editIcon.textContent = 'edit';
+    editIcon.classList.add('material-symbols-outlined');
+    editBtn.appendChild(editIcon);
 
     editBtn.addEventListener('click', () => {
       li.innerHTML = '';
@@ -114,15 +120,17 @@ function renderTasks() {
       li.appendChild(editInput);
       li.appendChild(saveBtn);
       li.appendChild(cancelBtn);
+
       editInput.focus();
     });
 
     //===== Create element =====
 
     li.appendChild(span);
-    li.appendChild(editBtn);
-    li.appendChild(deleteBtn);
+    const div1 = document.createElement('div');
+    div1.appendChild(editBtn);
+    div1.appendChild(deleteBtn);
+    li.appendChild(div1);
     list.appendChild(li);
   });
 }
-renderTasks();

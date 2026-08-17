@@ -13,33 +13,42 @@ body {
 }
 
 .todoContainer {
-  width: 500px;
-  padding: 5px;
+  width: 600px;
+  padding: 30px;
   box-shadow:
     rgba(0, 0, 0, 0.16) 0px 3px 6px,
     rgba(0, 0, 0, 0.23) 0px 3px 6px;
   border-radius: 10px;
 }
-.todoContainer h2 {
+.todoContainer h1 {
+  background-color: aliceblue;
+  box-shadow:
+    rgba(0, 0, 0, 0.16) 0px 3px 6px,
+    rgba(0, 0, 0, 0.23) 0px 3px 6px;
   text-align: center;
-  padding: 5px;
-  margin: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 15px;
 }
 
 .todoContainer input {
-  all: unset;
-  border: 1px solid gray;
-  margin: 10px;
-  padding: 10px;
+  width: 100%;
+  box-shadow:
+    rgba(0, 0, 0, 0.16) 0px 3px 6px,
+    rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  padding: 20px;
+  margin-bottom: 20px;
   border-radius: 10px;
-  width: 350px;
   font-size: 18px;
+  border: 0;
+  outline: 0;
 }
 .todoContainer #addBtn {
-  width: 90px;
+  width: 100%;
   font-size: 18px;
   font-weight: 700;
   padding: 10px;
+  margin-bottom: 20px;
   border-radius: 10px;
   border: 1px solid gray;
   background-color: #29eb07;
@@ -47,32 +56,28 @@ body {
 }
 .todoContainer ul {
   list-style: none;
-  margin-top: 20px;
 }
 .todoContainer ul li {
-    display: flex;
-    justify-content:space-between;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
   box-shadow:
     rgba(0, 0, 0, 0.16) 0px 3px 6px,
     rgba(0, 0, 0, 0.23) 0px 3px 6px;
   padding: 10px;
-  margin: 10px;
   border-radius: 10px;
 }
-li button{
-    all: unset;
-    background: red;
-    color: white;
-    padding: 2px 10px;
-    border-radius: 10px;
-    font-weight: 700;
-    cursor: pointer;
+li button {
+  all: unset;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
 }
 li span {
-    cursor: pointer;
+  cursor: pointer;
 }
-.completed{
-    text-decoration: line-through;
-    opacity: 0.5;
+.completed {
+  text-decoration: line-through;
+  opacity: 0.5;
 }
-

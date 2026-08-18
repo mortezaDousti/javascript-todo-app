@@ -3,7 +3,7 @@ const addTaskBtn = document.querySelector('#addBtn');
 const list = document.querySelector('.taskList');
 
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-
+renderTasks();
 //===== add task with button =====
 
 addTaskBtn.addEventListener('click', addTask);
@@ -90,9 +90,14 @@ function renderTasks() {
       const editInput = document.createElement('input');
       editInput.value = task.title;
       const saveBtn = document.createElement('button');
-      saveBtn.textContent = 'Save';
+      const saveIcon = document.createElement('i')
+      saveIcon.textContent = 'save';
+      saveIcon.classList.add('material-symbols-outlined')
+
       const cancelBtn = document.createElement('button');
-      cancelBtn.textContent = 'Cancel';
+      const cancelIcon = document.createElement('i')
+      cancelIcon.textContent = 'undo';
+      cancelIcon.classList.add('material-symbols-outlined')
 
       saveBtn.addEventListener('click', () => {
         const newTitle = editInput.value.trim();
@@ -117,9 +122,14 @@ function renderTasks() {
         input.focus();
       });
 
+      const div2 = document.createElement('div')
+
+      saveBtn.appendChild(saveIcon);
+      cancelBtn.appendChild(cancelIcon);
+      div2.appendChild(saveBtn);
+      div2.appendChild(cancelBtn);
       li.appendChild(editInput);
-      li.appendChild(saveBtn);
-      li.appendChild(cancelBtn);
+      li.appendChild(div2);
 
       editInput.focus();
     });

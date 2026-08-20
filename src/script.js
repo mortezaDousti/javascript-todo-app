@@ -4,10 +4,17 @@ const list = document.querySelector('.taskList');
 const allBtn = document.querySelector('#allBtn');
 const activeBtn = document.querySelector('#activeBtn');
 const completedBtn = document.querySelector('#completedBtn');
+const searchInput = document.querySelector('#searchInput');
+const totalTasks = document.querySelector('#totalTasks');
+const completedTasks = document.querySelector('#completedTasks');
+const remainingTasks = document.querySelector('#remainingTasks');
+const clearCompletedBtn = document.querySelector('#clearCompletedBtn');
 
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 let editTaskId = null;
 let currentFilter = 'all';
+let searchText = '';
+
 renderTasks();
 
 //===== add task with button =====
@@ -26,7 +33,18 @@ activeBtn.addEventListener('click', () => {
 
 completedBtn.addEventListener('click', () => {
   currentFilter = 'completed';
+  
   renderTasks();
+});
+
+clearCompletedBtn.addEventListener('click', () => {
+  tasks = tasks.filter((task) => !task.completed);
+
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+
+  renderTasks();
+
+  input.focus();
 });
 
 function addTask() {
@@ -61,8 +79,28 @@ input.addEventListener('keydown', (event) => {
   }
 });
 
+searchInput.addEventListener('input', () => {
+  searchText = searchInput.value.toLowerCase();
+
+  renderTasks();
+});
+
+function updateStats() {
+  const total = tasks.length;
+
+  const completed = tasks.filter((task) => task.completed).length;
+
+  const remaining = total - completed;
+
+  totalTasks.textContent = `Total: ${total}`;
+  completedTasks.textContent = `Completed: ${completed}`;
+  remainingTasks.textContent = `Remaining: ${remaining}`;
+}
+
 function renderTasks() {
   list.innerHTML = '';
+
+  updateStats();
 
   let filteredTasks = tasks;
 
@@ -72,6 +110,10 @@ function renderTasks() {
 
   if (currentFilter === 'completed') {
     filteredTasks = tasks.filter((task) => task.completed === true);
+  }
+
+  if (searchText !== '') {
+    filteredTasks = filteredTasks.filter((task) => task.title.toLowerCase().includes(searchText));
   }
 
   filteredTasks.forEach((task) => {
@@ -105,7 +147,7 @@ function renderTasks() {
       renderTasks();
     });
 
-    //===== Button del =====
+    //===== delete task button =====
 
     const deleteBtn = document.createElement('button');
     const delIcon = document.createElement('i');

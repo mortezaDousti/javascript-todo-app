@@ -13,13 +13,17 @@
     />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=delete,edit,save,undo"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
     />
-    
   </head>
   <body>
     <div class="todoContainer">
       <h1>Todo App</h1>
+      <div class="filterBox">
+        <button id="allBtn">All</button>
+        <button id="activeBtn">Active</button>
+        <button id="completedBtn">Completed</button>
+      </div>
       <input id="taskInput" type="text" placeholder="Write a task" autofocus />
       <button id="addBtn">Add</button>
       <ul class="taskList"></ul>

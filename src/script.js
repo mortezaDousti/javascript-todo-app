@@ -1,12 +1,33 @@
 const input = document.querySelector('#taskInput');
 const addTaskBtn = document.querySelector('#addBtn');
 const list = document.querySelector('.taskList');
+const allBtn = document.querySelector('#allBtn');
+const activeBtn = document.querySelector('#activeBtn');
+const completedBtn = document.querySelector('#completedBtn');
 
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+let editTaskId = null;
+let currentFilter = 'all';
 renderTasks();
+
 //===== add task with button =====
 
 addTaskBtn.addEventListener('click', addTask);
+
+allBtn.addEventListener('click', () => {
+  currentFilter = 'all';
+  renderTasks();
+});
+
+activeBtn.addEventListener('click', () => {
+  currentFilter = 'active';
+  renderTasks();
+});
+
+completedBtn.addEventListener('click', () => {
+  currentFilter = 'completed';
+  renderTasks();
+});
 
 function addTask() {
   //===== when the input is empty or space =====
@@ -42,8 +63,29 @@ input.addEventListener('keydown', (event) => {
 
 function renderTasks() {
   list.innerHTML = '';
-  tasks.forEach((task) => {
+
+  let filteredTasks = tasks;
+
+  if (currentFilter === 'active') {
+    filteredTasks = tasks.filter((task) => task.completed === false);
+  }
+
+  if (currentFilter === 'completed') {
+    filteredTasks = tasks.filter((task) => task.completed === true);
+  }
+
+  filteredTasks.forEach((task) => {
     const li = document.createElement('li');
+    const taskContent = document.createElement('div');
+    taskContent.classList.add('taskContent');
+
+    if (task.completed) {
+      const checkIcon = document.createElement('i');
+      checkIcon.textContent = 'check';
+      checkIcon.classList.add('material-symbols-outlined');
+
+      taskContent.appendChild(checkIcon);
+    }
 
     //===== Span for writing the tasks =====
 
@@ -86,18 +128,25 @@ function renderTasks() {
     editBtn.appendChild(editIcon);
 
     editBtn.addEventListener('click', () => {
+      if (editTaskId !== null && editTaskId !== task.id) {
+        return;
+      }
+      editTaskId = task.id;
+
       li.innerHTML = '';
       const editInput = document.createElement('input');
       editInput.value = task.title;
       const saveBtn = document.createElement('button');
-      const saveIcon = document.createElement('i')
+      const saveIcon = document.createElement('i');
       saveIcon.textContent = 'save';
-      saveIcon.classList.add('material-symbols-outlined')
+      saveIcon.classList.add('material-symbols-outlined');
 
       const cancelBtn = document.createElement('button');
-      const cancelIcon = document.createElement('i')
+      const cancelIcon = document.createElement('i');
       cancelIcon.textContent = 'undo';
-      cancelIcon.classList.add('material-symbols-outlined')
+      cancelIcon.classList.add('material-symbols-outlined');
+
+      //===== save then edit btn =====
 
       saveBtn.addEventListener('click', () => {
         const newTitle = editInput.value.trim();
@@ -108,6 +157,7 @@ function renderTasks() {
         task.title = newTitle;
         localStorage.setItem('tasks', JSON.stringify(tasks));
         renderTasks();
+        editTaskId = null;
         input.focus();
       });
 
@@ -117,12 +167,15 @@ function renderTasks() {
         }
       });
 
+      //===== cancel then edit btn =====
+
       cancelBtn.addEventListener('click', () => {
         renderTasks();
+        editTaskId = null;
         input.focus();
       });
 
-      const div2 = document.createElement('div')
+      const div2 = document.createElement('div');
 
       saveBtn.appendChild(saveIcon);
       cancelBtn.appendChild(cancelIcon);
@@ -135,8 +188,8 @@ function renderTasks() {
     });
 
     //===== Create element =====
-
-    li.appendChild(span);
+    taskContent.appendChild(span);
+    li.appendChild(taskContent);
     const div1 = document.createElement('div');
     div1.appendChild(editBtn);
     div1.appendChild(deleteBtn);
